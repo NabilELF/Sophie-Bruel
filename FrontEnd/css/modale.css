@@ -1,0 +1,185 @@
+.modal-container {
+    z-index: 3;
+    background: #00000042;
+    position:fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: opacity 0.7s ease-in-out, transform 0.7s ease-in-out;
+}
+
+.modal-container-two {
+    height: 100%;
+    width: 100%;
+   display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 15px;
+    width: 15px;
+
+}
+
+
+.close-modal:hover {
+    cursor: pointer;
+}
+
+.back-modal {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    height: 20px;
+    width: 20px;
+}
+
+.back-modal:hover {
+    cursor: pointer;
+}
+
+.modal-content {
+   
+    background: white;
+    border-radius: 10px;
+    padding: 60px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: 0.7s ease-in-out;
+
+}
+
+.modal-content h2 {
+    font-size: 26px;
+    font-weight: 400;
+    font-family: 'Work Sans';
+    color: black;
+
+}
+
+.modal-photos {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.modal-photo-container {
+    position: relative;
+}
+
+.modal-photo {
+    width : 75px;
+height: auto; 
+object-fit: cover;
+}
+
+
+
+.modal-delete-icons {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    height: 17px;
+    width: 17px;
+}
+
+.modal-delete-icons:hover {
+    cursor: pointer;
+}
+
+.modal-separator {
+    border-bottom:1px solid rgb(170, 170, 170);
+    height: 1px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+.modal-add-photo {
+    background: #1D6154;
+    color: white;
+    border: none;
+    border-radius: 60px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Syne';
+    padding: 5px 30px;
+}
+
+
+/* Modale pour ajouter un projet  */
+
+/* .modal-content-add-work {
+   position: absolute;
+   top: 0;
+   left:50%;
+    
+} */
+
+.modal-content-add-work h3 {
+    margin-bottom: 10px;
+}
+
+.upload-photo {
+    /* height: 120px; */
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: rgba(232, 241, 246, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.upload-photo img {
+    height: 76px;
+    width: 76px;
+}
+
+.upload-photo button {
+    border: none; 
+    background: #CBD6DC;
+    color: #306685;
+    padding: 10px 30px;
+    border-radius: 50px;
+    font-family: 'Work sans';
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.upload-photo p {
+    font-size: 10px;
+    font-weight: 400;
+}
+
+.modal-content-add-work input, select, option {
+    height: 50px;
+    width: 420px;
+    border: none;
+    box-shadow: 0px 4px 14px 0px rgb(0,0,0,0.09);
+    /* padding-left: 15px; */
+    font-weight: 400;
+    font-size: 14px;
+}
+
+
+
+
+

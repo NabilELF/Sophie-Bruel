@@ -1,0 +1,100 @@
+.login-page header {
+	margin: 30px 70px;
+}
+
+body.login-page {
+  height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  background: #fffef8 ;
+  overflow: hidden;
+}
+
+
+
+body.login-page main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-space {
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+	
+}
+
+.login-space h1 {
+	font-size: 30px;
+	font-weight: 700px;
+	color: #1D6154;
+}
+
+.email-container p {
+	font-size: 14px;
+	font-weight: 500; 
+	line-height: 100%;
+
+}
+
+.email-container input {
+	width: 379px;
+	height: 51px; 
+	margin-top: 15px;
+	padding-left: 15px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.password-container p {
+		font-size: 14px;
+	font-weight: 500; 
+	line-height: 100%;
+}
+
+.password-container input {
+	width: 379px;
+	height: 51px; 
+	margin-top: 15px;
+	padding-left: 15px;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+.login-space button {
+	background: #1D6154;
+	border: none;
+	border-radius:  60px;
+	width: 179px;
+	height: 36px;
+	color: white;
+	font-family: 'syne';
+}
+
+.login-space button:hover {
+	cursor: pointer;
+}
+
+.password-forgot {
+	text-decoration: underline;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.password-forgot:hover {
+	cursor:  pointer;
+}
+
+.login-page footer {
+	height: 60px;
+	padding: 10px;
+	background: white;
+}
+
+

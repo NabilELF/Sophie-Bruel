@@ -31,6 +31,10 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 }
+
+body button:hover {
+	cursor: pointer;
+}
 ol, ul {
 	list-style: none;
 }
@@ -97,6 +101,7 @@ nav li {
 
 li:hover {
 	color: #B1663C;
+	cursor: pointer;
 }
 #introduction {
 	display: flex;
@@ -125,6 +130,36 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.tri-container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap: 20px;
+	margin-bottom: 30px;
+height: 38px;
+}
+
+.tri-buttons {
+background: none;
+border-radius: 60px;
+border:1px solid #1D6154 ;
+padding: 10px 15px;
+color: #1D6154;
+font-family: 'syne';
+font-size: 16px;
+font-weight: 700;
+line-height: 100%;
+
+}
+
+.tri-buttons:hover {
+background: #1D6154;
+color: #fffef8;
+cursor: pointer;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -185,4 +220,5 @@ footer nav ul {
 	justify-content: flex-end;
 	margin: 2em
 }
+
 
