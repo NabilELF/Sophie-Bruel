@@ -1,5 +1,35 @@
 // MAIN PAGE
 
+//PAGE LOGIN OU LOGOUT
+
+const token = localStorage.getItem("token");
+const isLoggedIn = !!token; // true si connecté
+
+const loginLink = document.getElementById("login-link");
+const triContainer = document.querySelector(".tri-container");
+const modifierButton = document.querySelector(".modifier-button");
+
+if (isLoggedIn) {
+  loginLink.textContent = "logout";
+  triContainer.style.display = "none";
+  modifierButton.style.display = "inline-block";
+} else {
+  loginLink.textContent = "login";
+  triContainer.style.display = "flex";
+  modifierButton.style.display = "none";
+}
+
+loginLink.addEventListener("click", () => {
+  if (localStorage.getItem("token")) {
+    // Déconnexion
+    localStorage.removeItem("token");
+    window.location.reload();
+  } else {
+    // Rediriger vers la page de login
+    window.location.href = "login.html";
+  }
+});
+
 // Creer la gallery
 
 const gallery = document.querySelector(".gallery");
@@ -38,9 +68,11 @@ const triButtons = document.querySelectorAll(".tri-buttons");
 triButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const categoryButton = button.dataset.categoryId;
-    console.log(categoryButton);
 
     const galleryImages = document.querySelectorAll(".gallery figure");
+
+    triButtons.forEach((btn) => btn.classList.remove("tri-buttons-active"));
+    button.classList.add("tri-buttons-active");
 
     galleryImages.forEach((image) => {
       const categoryImage = image.dataset.categoryId;
@@ -62,11 +94,13 @@ triButtons.forEach((button) => {
 //Faire apparaitre la modale
 
 const projects = document.querySelector(".projects");
+const modifier = document.querySelector(".modifier-button");
 const modalContainer = document.querySelector(".modal-container");
 const modalPhotos = document.querySelector(".modal-photos");
 const closeModal = document.querySelectorAll(".close-modal");
+const modalContainerTwo = document.querySelector(".modal-container-two");
 
-projects.addEventListener("click", () => {
+modifier.addEventListener("click", () => {
   modalContainer.style.opacity = "1";
   modalContainer.style.transform = "translateY(0)";
 });
@@ -78,6 +112,20 @@ closeModal.forEach((button) => {
     modalContainer.style.opacity = "0";
     modalContainer.style.transform = "translateY(-100%)";
   });
+});
+
+modalContainer.addEventListener("click", (event) => {
+  if (event.target === modalContainer) {
+    modalContainer.style.opacity = "0";
+    modalContainer.style.transform = "translateY(-100%)";
+  }
+});
+
+modalContainerTwo.addEventListener("click", (event) => {
+  if (!event.target.closest(".modal-content")) {
+    modalContainer.style.opacity = "0";
+    modalContainer.style.transform = "translateY(-100%)";
+  }
 });
 
 // création de la modale
@@ -101,7 +149,8 @@ async function createModal() {
     const modalDeleteIcons = document.querySelectorAll(".modal-delete-icons");
 
     modalDeleteIcons.forEach((icon) => {
-      icon.addEventListener("click", () => {
+      icon.addEventListener("click", (e) => {
+        e.stopPropagation();
         const parentDiv = icon.parentElement;
         const id = parentDiv.dataset.id;
 
@@ -151,7 +200,9 @@ const addPhotoBtn = document.querySelector(".add-photo-button");
 const addPhotoIcon = document.querySelector(".add-photo-icon");
 const addWorkBtn = document.querySelector(".add-work-button");
 const title = document.getElementById("title");
-const titleContainer = document.querySelector(".title-container");
+const titleWorkContainer = document.querySelector(".title-work-container");
+const photoInfo = document.querySelector(".photo-info");
+const uploadPhoto = document.querySelector(".upload-photo");
 
 addPhotoBtn.addEventListener("click", () => {
   imageInput.click(); // ← ouvre le sélecteur de fichier
@@ -166,7 +217,16 @@ imageInput.addEventListener("change", () => {
 
   //prendre le résultat de reader et le mettre dans src de l'image
   reader.onload = () => {
+    //Afficher l'image
     addPhotoIcon.src = reader.result;
+
+    // masquer le bouton et le texte
+    addPhotoBtn.style.display = "none";
+    photoInfo.style.display = "none";
+    uploadPhoto.style.padding = "0px";
+    uploadPhoto.style.height = "140px";
+    addPhotoIcon.style.height = "100%";
+    addPhotoIcon.style.width = "auto";
   };
 
   reader.readAsDataURL(file);
@@ -184,7 +244,7 @@ addWorkBtn.addEventListener("click", async () => {
     emptyTitle.style.marginTop = "10px";
     emptyTitle.style.color = "red";
     emptyTitle.innerHTML = "Veuillez indiquer un titre";
-    titleContainer.appendChild(emptyTitle);
+    titleWorkContainer.appendChild(emptyTitle);
   } else {
     const response = await fetch("http://localhost:5678/api/works", {
       method: "POST",
@@ -216,3 +276,23 @@ addWorkBtn.addEventListener("click", async () => {
     }
   }
 });
+
+// Changer la couleur du button pour ajouter un projet
+
+function buttonColorChange() {
+  const hasImage = imageInput.files.length > 0;
+  const hasTitle = title.value.trim() !== "";
+
+  if (hasImage && hasTitle) {
+    addWorkBtn.classList.add("modal-add-photo");
+    addWorkBtn.classList.remove("add-work-button");
+  } else {
+    addWorkBtn.classList.remove("modal-add-photo");
+    addWorkBtn.classList.add("add-work-button");
+  }
+}
+
+imageInput.addEventListener("change", buttonColorChange);
+title.addEventListener("input", buttonColorChange);
+
+buttonColorChange();

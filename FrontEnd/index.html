@@ -10,6 +10,11 @@
       href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Work+Sans&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
     <meta name="description" content="" />
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/modale.css" />
@@ -19,9 +24,9 @@
       <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
       <nav>
         <ul>
-          <li class="projects">projets</li>
-          <li>contact</li>
-          <li>login</li>
+          <li><a href="#portfolio">projets</a></li>
+          <li><a href="#contact">contact</a></li>
+          <li><a id="login-link">login</a></li>
           <li><img src="./assets/icons/instagram.png" alt="Instagram" /></li>
         </ul>
       </nav>
@@ -51,9 +56,14 @@
         </article>
       </section>
       <section id="portfolio">
-        <h2>Mes Projets</h2>
+        <div class="title-container">
+          <h2>Mes Projets</h2>
+          <button class="modifier-button">
+            <i class="fa-regular fa-pen-to-square"></i> Modifier
+          </button>
+        </div>
         <div class="tri-container">
-          <button class="tri-buttons" data-category-id="tous">Tous</button>
+          <button class="tri-buttons tri-buttons-active" data-category-id="tous">Tous</button>
           <button class="tri-buttons" data-category-id="1">Objets</button>
           <button class="tri-buttons" data-category-id="2">Appartements</button>
           <button class="tri-buttons" data-category-id="3">
@@ -62,50 +72,6 @@
         </div>
 
         <div class="gallery">
-          <!-- <figure data-category="objet">
-				<img src="assets/images/abajour-tahina.png" alt="Abajour Tahina">
-				<figcaption>Abajour Tahina</figcaption>
-			</figure>
-			<figure data-category="appartement">
-				<img src="assets/images/appartement-paris-v.png" alt="Appartement Paris V">
-				<figcaption>Appartement Paris V</figcaption>
-			</figure>
-			<figure data-category="hotelOuRestaurant">
-				<img src="assets/images/restaurant-sushisen-londres.png" alt="Restaurant Sushisen - Londres">
-				<figcaption>Restaurant Sushisen - Londres</figcaption>
-			</figure>
-			<figure data-category="hotelOuRestaurant">
-				<img src="assets/images/la-balisiere.png" alt="Villa “La Balisiere” - Port Louis">
-				<figcaption>Villa “La Balisiere” - Port Louis</figcaption>
-			</figure>
-			<figure data-category="objet">
-				<img src="assets/images/structures-thermopolis.png" alt="Structures Thermopolis">
-				<figcaption>Structures Thermopolis</figcaption>
-			</figure>
-			<figure data-category="appartement">
-				<img src="assets/images/appartement-paris-x.png" alt="Appartement Paris X">
-				<figcaption>Appartement Paris X</figcaption>
-			</figure>
-			<figure data-category="hotelOuRestaurant">
-				<img src="assets/images/le-coteau-cassis.png" alt="Pavillon “Le coteau” - Cassis">
-				<figcaption>Pavillon “Le coteau” - Cassis</figcaption>
-			</figure>
-			<figure data-category="hotelOuRestaurant">
-				<img src="assets/images/villa-ferneze.png" alt="Villa Ferneze - Isola d’Elba">
-				<figcaption>Villa Ferneze - Isola d’Elba</figcaption>
-			</figure>
-			<figure data-category="appartement">
-				<img src="assets/images/appartement-paris-xviii.png" alt="Appartement Paris XVIII">
-				<figcaption>Appartement Paris XVIII</figcaption>
-			</figure>
-			<figure data-category="hotelOuRestaurant">
-				<img src="assets/images/bar-lullaby-paris.png" alt="Bar “Lullaby” - Paris">
-				<figcaption>Bar “Lullaby” - Paris</figcaption>
-			</figure>
-			<figure data-category="hotelOuRestaurant">
-				<img src="assets/images/hotel-first-arte-new-delhi.png" alt="Hotel First Arte - New Delhi">
-				<figcaption>Hotel First Arte - New Delhi</figcaption>
-			</figure> -->
         </div>
       </section>
       <section id="contact">
@@ -133,9 +99,8 @@
 
     <!-- Création de la fenêtre modale pour la suppression ou l'ajout de projets  -->
 
-	
     <div class="modal-container">
-		<!-- Modale pour supprimer  -->
+      <!-- Modale pour supprimer  -->
       <div class="modal-container-two">
         <div class="modal-content modal-content-delete-work">
           <h2>Galerie photo</h2>
@@ -150,30 +115,39 @@
           />
         </div>
 
-		<!-- Modale pour ajouter  -->
+        <!-- Modale pour ajouter  -->
         <div class="modal-content modal-content-add-work" style="display: none">
           <h2>Ajout Photo</h2>
           <div class="upload-photo">
-            <img src="./assets/icons/upload.png" alt="télécharger une image" class="add-photo-icon"/>
-			<input type="file" id="imageInput" accept="image/png, image/jpeg" hidden />
+            <img
+              src="./assets/icons/upload.png"
+              alt="télécharger une image"
+              class="add-photo-icon"
+            />
+            <input
+              type="file"
+              id="imageInput"
+              accept="image/png, image/jpeg"
+              hidden
+            />
             <button class="add-photo-button">+ Ajouter photo</button>
-            <p>jpg, png : 4mo max</p>
+            <p class="photo-info">jpg, png : 4mo max</p>
           </div>
-          <div class="title-container">
+          <div class="title-work-container">
             <h3>Titre</h3>
-            <input type="text" id="title"/>
+            <input type="text" id="title" />
           </div>
           <div class="category-container">
             <h3>Catégorie</h3>
             <label for="category"></label>
-			<select name="category" id="category">
-				<option data-category-id="3">Hotels & restaurants</option>
-				<option data-category-id="2">Appartements</option>
-				<option data-category-id="1">Objets</option>
-			</select>
+            <select name="category" id="category">
+              <option data-category-id="3">Hotels & restaurants</option>
+              <option data-category-id="2">Appartements</option>
+              <option data-category-id="1">Objets</option>
+            </select>
           </div>
           <div class="modal-separator"></div>
-          <button class="modal-add-photo add-work-button">Valider</button>
+          <button class="add-work-button">Valider</button>
           <img
             src="./assets/icons/close.png"
             alt="fermer la modale"

@@ -4,17 +4,33 @@ Code du projet 6 d'intégrateur web.
 
 ## Architecture
 
-Ce repo git contient les 2 briques logicielles du projet 
+Ce repo git contient les 2 briques logicielles du projet
+
 - Frontend
 - Backend
 
 ## Pour le lancer le code
+
 ### Backend
+
 Ouvrir le dossier Backend et lire le README.md
 
 ### Frontend
+
 Ouvrir le dossier Frontend et lancer liveserver de votre IDE
- 
+
 ## Astuce
- 
+
 Si vous désirez afficher le code du backend et du frontend, faites le dans 2 instances de VSCode différentes pour éviter tout problème
+
+- choses à changer
+
+- XXX "Tous" doit etre selectionné (hover) - me^me chose pour les autres bouttons (objets/appartements/Hotel&Restaurants)
+
+- changer login en lougout et menu en focntion de connecté ou pas (token)
+
+-XXX désactiver le boutton valider si un champs pas complété
+
+-XXX supprimer boutton "ajouter une photo" quand photo affiché
+
+- Bonus : possibilité de changer de photo si on s'est trompé
