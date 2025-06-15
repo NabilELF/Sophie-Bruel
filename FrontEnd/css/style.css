@@ -101,10 +101,6 @@ nav li {
 	font-size: 1.2em;
 }
 
-/* li:hover {
-	color: #B1663C;
-	cursor: pointer;
-} */
 
 nav a {
 	color : black;
@@ -211,6 +207,7 @@ color: #fffef8;
 .gallery img {
 	width: 100%;
 	height : 100%;
+
 
 }
 #contact {
