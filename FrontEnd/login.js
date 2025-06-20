@@ -5,7 +5,7 @@ const passwordContainer = document.querySelector(".password-container");
 
 connectButton.addEventListener("click", async () => {
   const email = emailInput.value.trim();
-  const password = passwordInput.value.trim();
+  const password = passwordInput.value;
 
   const reponse = await fetch("http://localhost:5678/api/users/login", {
     method: "POST",

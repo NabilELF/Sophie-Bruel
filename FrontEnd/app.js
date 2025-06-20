@@ -62,32 +62,52 @@ createGallery();
 
 // Trier avec les buttons
 
-const triButtons = document.querySelectorAll(".tri-buttons");
+fetch("http://localhost:5678/api/categories")
+  .then((res) => res.json())
+  .then((categories) => {
+    // Bouton tous
+    const tous = document.createElement("button");
+    tous.innerText = "Tous";
+    tous.className = "tri-buttons tri-buttons-active";
+    tous.dataset.categoryId = "tous";
+    triContainer.appendChild(tous);
 
-triButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const categoryButton = button.dataset.categoryId;
+    // Autres bouttons
+    categories.forEach((cat) => {
+      const btn = document.createElement("button");
+      btn.innerText = cat.name;
+      btn.className = "tri-buttons";
+      btn.dataset.categoryId = cat.id;
+      triContainer.appendChild(btn);
+    });
 
-    const galleryImages = document.querySelectorAll(".gallery figure");
+    const triButtons = document.querySelectorAll(".tri-buttons");
 
-    triButtons.forEach((btn) => btn.classList.remove("tri-buttons-active"));
-    button.classList.add("tri-buttons-active");
+    triButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const categoryButton = button.dataset.categoryId;
 
-    galleryImages.forEach((image) => {
-      const categoryImage = image.dataset.categoryId;
+        const galleryImages = document.querySelectorAll(".gallery figure");
 
-      //Remettre toutes les photos à chaque click
-      image.style.display = "";
+        triButtons.forEach((btn) => btn.classList.remove("tri-buttons-active"));
+        button.classList.add("tri-buttons-active");
 
-      if (categoryImage !== categoryButton) {
-        image.style.display = "none";
-      }
-      if (categoryButton === "tous") {
-        image.style.display = "";
-      }
+        galleryImages.forEach((image) => {
+          const categoryImage = image.dataset.categoryId;
+
+          //Remettre toutes les photos à chaque click
+          image.style.display = "";
+
+          if (categoryImage !== categoryButton) {
+            image.style.display = "none";
+          }
+          if (categoryButton === "tous") {
+            image.style.display = "";
+          }
+        });
+      });
     });
   });
-});
 
 // MODAL
 
@@ -132,6 +152,7 @@ modalContainerTwo.addEventListener("click", (event) => {
 
 async function createModal() {
   await createGallery();
+  modalPhotos.innerHTML = "";
 
   const galleryImages = document.querySelectorAll(".gallery figure");
 
@@ -149,6 +170,25 @@ async function createModal() {
   });
 
   const modalDeleteIcons = document.querySelectorAll(".modal-delete-icons");
+
+  // Changer de modal
+
+  const addPhotoButton = document.querySelector(".modal-add-photo");
+  const modalDeleteWork = document.querySelector(".modal-content-delete-work");
+  const modalAddWork = document.querySelector(".modal-content-add-work");
+  const backModal = document.querySelector(".back-modal");
+
+  addPhotoButton.addEventListener("click", () => {
+    modalDeleteWork.style.display = "none";
+    modalAddWork.style.display = "flex";
+  });
+
+  backModal.addEventListener("click", () => {
+    modalDeleteWork.style.display = "flex";
+    modalAddWork.style.display = "none";
+  });
+
+  // Supprimer des projets
 
   modalDeleteIcons.forEach((icon) => {
     icon.addEventListener("click", async (e) => {
@@ -186,23 +226,6 @@ async function createModal() {
 }
 
 createModal();
-
-// Changer de modal
-
-const addPhotoButton = document.querySelector(".modal-add-photo");
-const modalDeleteWork = document.querySelector(".modal-content-delete-work");
-const modalAddWork = document.querySelector(".modal-content-add-work");
-const backModal = document.querySelector(".back-modal");
-
-addPhotoButton.addEventListener("click", () => {
-  modalDeleteWork.style.display = "none";
-  modalAddWork.style.display = "flex";
-});
-
-backModal.addEventListener("click", () => {
-  modalDeleteWork.style.display = "flex";
-  modalAddWork.style.display = "none";
-});
 
 // Ajouter des projets
 
@@ -244,7 +267,11 @@ imageInput.addEventListener("change", () => {
 
 addWorkBtn.addEventListener("click", async (event) => {
   event.preventDefault();
+  const imageFile = imageInput.files[0];
+  let error = false;
+
   if (title.value === "") {
+    error = true;
     const emptyTitleMsg = document.querySelector(".emptyTitle");
     if (emptyTitleMsg) emptyTitleMsg.remove();
 
@@ -254,33 +281,68 @@ addWorkBtn.addEventListener("click", async (event) => {
     emptyTitle.style.color = "red";
     emptyTitle.innerHTML = "Veuillez indiquer un titre";
     titleWorkContainer.appendChild(emptyTitle);
-  } else {
-    const imageFile = imageInput.files[0];
+  }
 
-    const formData = new FormData();
-    formData.append("title", title.value.trim());
-    formData.append("category", 3);
-    formData.append("image", imageFile);
+  if (!imageFile) {
+    error = true;
+    const emptyImageMsg = document.querySelector(".emptyImage");
+    if (emptyImageMsg) emptyImageMsg.remove();
 
-    const response = await fetch("http://localhost:5678/api/works", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-      body: formData,
-    });
+    const emptyImage = document.createElement("p");
+    emptyImage.className = "emptyImage";
+    emptyImage.style.color = "red";
+    emptyImage.style.marginTop = "10px";
+    emptyImage.textContent = "Veuillez ajouter une image";
+    uploadPhoto.appendChild(emptyImage);
+  }
 
-    if (response.ok) {
-      const newWork = document.createElement("figure");
-      newWork.innerHTML = `
+  if (error) return;
+
+  const formData = new FormData();
+  formData.append("title", title.value.trim());
+  formData.append("category", 3);
+  formData.append("image", imageFile);
+
+  const response = await fetch("http://localhost:5678/api/works", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+    body: formData,
+  });
+
+  if (response.ok) {
+    const newWork = document.createElement("figure");
+    newWork.innerHTML = `
         <img src="${URL.createObjectURL(imageFile)}" alt="newWork">
         <figcaption>${title.value.trim()}</figcaption>
       `;
-      gallery.appendChild(newWork);
-      await createModal();
-    } else {
-      alert("Erreur lors de l'envoi");
-    }
+    gallery.appendChild(newWork);
+    await createModal();
+
+    //réinitialiser la modale
+    title.value = "";
+    imageInput.value = "";
+
+    // Réinitialiser les éléments
+    addPhotoIcon.src = "./assets/icons/upload.png";
+    addPhotoBtn.style.display = "block";
+    photoInfo.style.display = "block";
+    uploadPhoto.style.padding = "20px";
+    uploadPhoto.style.height = "auto";
+    addPhotoIcon.style.height = "50px";
+    addPhotoIcon.style.width = "60px";
+
+    const titleError = document.querySelector(".emptyTitle");
+    if (titleError) titleError.style.display = "none";
+
+    const imageError = document.querySelector(".emptyImage");
+    if (imageError) imageError.style.display = "none";
+
+    // Réinitialiser l’état du bouton
+    buttonColorChange();
+  } else {
+    alert("Erreur lors de l'envoi");
   }
 });
 
